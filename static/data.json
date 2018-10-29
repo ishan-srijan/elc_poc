@@ -1,0 +1,30 @@
+[
+	{
+		"code3": "IND",
+        "name": "India",
+		"z": 100,
+		"s":73,
+		"code": "IN"
+	},
+	{
+		"code3": "RUS",
+        "name": "Russia",
+		"z": 42,
+        "s":65,
+		"code": "RU"
+	},
+    {
+		"code3": "GRL",
+		"name": "Greenland",
+		"z": 38,
+        "s":1,
+		"code": "GL"
+	},
+	{
+		"code3": "USA",
+        "name": "United States",
+		"z": 39,
+        "s":80,
+		"code": "US"
+	}
+]

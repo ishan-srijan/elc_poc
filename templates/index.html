@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>ELC Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+    <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'main.js') }}"></script>
+</head>
+<body>
+<div class="jumbotron text-center container-fluid">
+    <h1>ELC Dashboard</h1>
+
+</div>
+
+<div class="container">
+    <div class="col-sm-6">
+        <div class="clearfix">
+            <div class="btn-group inline pull-left" data-toggle="buttons-checkbox">
+                <div class="inline pull-left dropdown" style="padding-right:15px;">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Get Data by
+                        Country
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <button onclick="all_data()" class="btn btn-primary" type="button">All</button>
+                        </li>
+                        <br>
+                        <li>
+                            <button onclick="get_sales_by_country('usa')" class="btn btn-primary" type="button">USA</button>
+                        </li>
+                        <br>
+                        <li>
+                            <button onclick="get_sales_by_country('england')" class="btn btn-primary" type="button">England
+                            </button>
+                        </li>
+                        <br>
+                        <li>
+                            <button onclick="get_sales_by_country('india')" class="btn btn-primary" type="button">India
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="inline pull-left dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Get Data by City
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="cityList">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="all_data">
+            <h2>Sales data</h2>
+            <p>Some randon text</p>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>Average Sales(in millions)</th>
+                    <th>Average BA Score</th>
+                </tr>
+                </thead>
+                <tbody id="tab_all">
+                <tr>
+                    <td id="country"></td>
+                    <td id="sales"></td>
+                    <td id="score"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container" id="country_table" style="display:none;">
+            <h2>Sales data by country</h2>
+            <p>Some randon text</p>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>Average Sales(in millions)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id="country_name"></td>
+                    <td id="country_avg_sales"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="city_table" style="display:none;">
+            <h2>Sales data by city</h2>
+            <p>Some randon text</p>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Average Sales(in millions)</th>
+                    <th>Average BA Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id="city_name"></td>
+                    <td id="city_avg_sales"></td>
+                    <td id="ba_avg_score"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div id="container"></div>
+    </div>
+</div>
+<script>
+    $.getJSON('static/data.json', function (data) {
+
+        console.log(data);
+
+    Highcharts.mapChart('container', {
+        chart: {
+            borderWidth: 0,
+            map: 'custom/world'
+        },
+
+        title: {
+            text: 'Sales data for 2018'
+        },
+
+
+
+        legend: {
+            enabled: false
+        },
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        series: [{
+            name: 'Countries',
+            color: '#E0E0E0',
+            enableMouseTracking: false
+        }, {
+            type: 'mapbubble',
+            negativeColor: '#FF0022',
+            zThreshold: 40,
+            name: 'Data of 2016',
+            joinBy: ['iso-a3', 'code3'],
+            data: data,
+            minSize: 20,
+            maxSize: '12%',
+            tooltip: {
+                pointFormat: '<span style="font-size:15px">{point.name}</span><br/>AVG BA SCORE : {point.s}<br/>AVG SALE : {point.z} millions'
+            }
+        }]
+    });
+});
+</script>
+</body>
+</html>
