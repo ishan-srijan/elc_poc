@@ -9,8 +9,8 @@ app.secret_key = "Your_secret_strn"
 
 @app.route('/')
 def home():
-
-    return render_template('index.html')
+    return "Hello"
+    #return render_template('index.html')
 
 @app.route('/all', methods=['POST'])
 def all():
