@@ -78,7 +78,7 @@ def data_by_city():
 
 def connect_database():
     engine = create_engine(
-        "",
+        "postgresql+psycopg2://postgres:@localhost:5432/elc_db",
         pool_pre_ping=True)
     connection = engine.connect()
     return connection
